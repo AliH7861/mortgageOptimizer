@@ -1,0 +1,80 @@
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faQuoteLeft, faQuoteRight } from "@fortawesome/free-solid-svg-icons";
+
+// Testimonials array
+const testimonialList = [
+  {
+    img: "https://cdn.easyfrontend.com/pictures/testimonial/testimonial_square_3.jpeg",
+    name: "Julian Olano",
+    position: "Data Fusion Challenge Partner",
+    content:
+      "Ali is a driven and detail-oriented individual who approaches problems with a data-first mindset, consistently delivering solutions that meet and exceed design goals.",
+  },
+  {
+    img: "https://cdn.easyfrontend.com/pictures/testimonial/testimonial_square_2.jpeg",
+    name: "Sara Tailor",
+    position: "Senior Data Scientist",
+    content:
+      "Working with Ali was a pleasure—his skills in machine learning and leadership made every project better.",
+  },
+  {
+    img: "https://cdn.easyfrontend.com/pictures/testimonial/testimonial_square_1.jpeg",
+    name: "John Leo",
+    position: "Mentor & Project Lead",
+    content:
+      "What stands out most is Ali’s passion for impactful solutions and his strong sense of empathy in teamwork.",
+  },
+];
+
+export const Testimonial = () => {
+  const [index, setIndex] = useState(0);
+  const { img, name, position, content } = testimonialList[index];
+
+  const handleSelect = (selectedIndex) => setIndex(selectedIndex);
+
+  return (
+    <section className="py-8 md:py-16 relative z-10">
+      <div className="container px-4 mx-auto max-w-3xl">
+        <div className="relative flex flex-col items-center text-center">
+          {/* Decorative Quotes */}
+          <FontAwesomeIcon
+            icon={faQuoteLeft}
+            className="absolute -top-8 left-2 text-[64px] text-red-500/20 pointer-events-none z-0 pb-4"
+          />
+          <FontAwesomeIcon
+            icon={faQuoteRight}
+            className="absolute -bottom-8 right-2 text-[64px] text-red-500/20 pointer-events-none z-0"
+          />
+
+          {/* Testimonial Text */}
+          <p className="relative text-xl md:text-2xl font-medium mb-8 text-center z-10 text-white-900 dark:text-white-100 drop-shadow-lg pt-12 pl-8 pr-8">
+            {content}
+          </p>
+
+          {/* Person */}
+          <div className="flex flex-col items-center justify-center mt-4 z-10">
+            <h4 className="text-lg font-bold text-red-500">{name}</h4>
+            <p className="opacity-80 text-sm text-white-700 dark:text-white-300">{position}</p>
+          </div>
+        </div>
+
+        {/* Dots Navigation */}
+        <div className="flex justify-center gap-2 mt-8">
+          {testimonialList.map((item, i) => (
+            <button
+              key={i}
+              aria-label={`View testimonial ${i + 1}`}
+              className={`w-3 h-3 rounded-full transition-all duration-30 
+                ${index === i
+                  ? "scale-125 bg-red-500 shadow-md"
+                  : "bg-gray-300 dark:bg-gray-700"
+                }`}
+              onClick={() => handleSelect(i)}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
