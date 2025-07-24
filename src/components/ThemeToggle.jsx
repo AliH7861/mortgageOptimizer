@@ -11,8 +11,8 @@ export const ThemeToggle = () => {
       setIsDarkMode(true);
       document.documentElement.classList.add("dark");
     } else {
-      localStorage.setItem("theme", "light");
       setIsDarkMode(false);
+      document.documentElement.classList.remove("dark");
     }
   }, []);
 
@@ -31,10 +31,9 @@ export const ThemeToggle = () => {
   return (
     <button
       onClick={toggleTheme}
-     className={cn(
-        "fixed top-5 right-2 sm:right-8 top-5 z-50 rounded-full transition-colors duration-300",
-      "focus:outline-none"
-    )}
+      className={cn(
+        "rounded-full transition-colors duration-300 focus:outline-none"
+      )}
     >
       {isDarkMode ? (
         <Sun className="h-6 w-6 text-red-500" />
