@@ -60,7 +60,7 @@ const cards = [
 
 export const PersonalGrid = () => {
   return (
-    <section id="personal-grid" className="py-24 px-4 relative bg-transparent">
+    <section id="services" className="py-24 px-4 relative bg-transparent">
       <div className="container mx-auto max-w-6xl">
         <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
           My <span className="text-red">Services</span>

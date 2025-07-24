@@ -34,7 +34,7 @@ export const Testimonial = () => {
   const handleSelect = (selectedIndex) => setIndex(selectedIndex);
 
   return (
-    <section className="py-8 md:py-16 relative z-10">
+    <section id="testimonials" className="py-8 md:py-16 relative z-10">
       <div className="container px-4 mx-auto max-w-3xl">
         <div className="relative flex flex-col items-center text-center">
           {/* Decorative Quotes */}

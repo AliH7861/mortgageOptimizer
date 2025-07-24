@@ -125,7 +125,7 @@ export const ExperienceTree = () => (
 
         {/* Timeline steps */}
         {experiences.map((exp, i) => (
-          <div key={i} className="relative w-full flex md:mb-24 mb-16 items-center">
+          <div key={i} className="relative w-full flex md:mb-24 mb-16 text-left">
             {/* On md+, alternate cards left/right, always center on mobile */}
             <div className={`flex-1 ${i % 2 === 0 ? "md:pr-16 md:justify-end flex" : "md:pl-16 md:justify-start flex"} justify-center`}>
               <div

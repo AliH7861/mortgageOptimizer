@@ -5,8 +5,12 @@ import { useEffect, useState } from "react";
 const navItems = [
   { name: "Home", href: "#hero" },
   { name: "About", href: "#about" },
+  { name: "Services", href: "#services" },
+  { name: "Experience", href: "#experience" },
   { name: "Skills", href: "#skills" },
   { name: "Projects", href: "#projects" },
+  { name: "Testimonials", href: "#testimonials" },
+ 
   { name: "Contact", href: "#contact" },
 ];
 
@@ -41,7 +45,7 @@ export const Navbar = () => {
         </a>
 
         {/* desktop nav */}
-        <div className="hidden md:flex space-x-8">
+        <div className="hidden lg:flex space-x-8">
           {navItems.map((item, key) => (
             <a
               key={key}
