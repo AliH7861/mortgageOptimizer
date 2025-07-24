@@ -105,11 +105,6 @@ export const SkillsSection = () => {
                   style={{ width: `${skill.level}%` }}
                 />
               </div>
-              <div className="text-right mt-1">
-                <span className="text-sm text-muted-foreground">
-                  {skill.level}% — {skill.level >= 80 ? "Advanced" : skill.level >= 60 ? "Intermediate" : "Beginner"}
-                </span>
-              </div>
             </div>
           ))}
         </div>
