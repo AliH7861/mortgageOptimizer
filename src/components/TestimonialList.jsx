@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuoteLeft, faQuoteRight } from "@fortawesome/free-solid-svg-icons";
+import { motion, AnimatePresence } from "framer-motion";
 
-// Testimonials array
 const testimonialList = [
   {
     img: "https://cdn.easyfrontend.com/pictures/testimonial/testimonial_square_3.jpeg",
@@ -29,9 +29,28 @@ const testimonialList = [
 
 export const Testimonial = () => {
   const [index, setIndex] = useState(0);
+  const [direction, setDirection] = useState(1); // 1 for next, -1 for prev
+  const timeoutRef = useRef(null);
+
   const { img, name, position, content } = testimonialList[index];
 
-  const handleSelect = (selectedIndex) => setIndex(selectedIndex);
+  // Auto-advance every 15 seconds
+  useEffect(() => {
+    timeoutRef.current = setTimeout(() => {
+      setDirection(1);
+      setIndex((prev) => (prev + 1) % testimonialList.length);
+    }, 5000);
+
+    return () => clearTimeout(timeoutRef.current);
+  }, [index]);
+
+  // Manual dot click
+  const handleSelect = (selectedIndex) => {
+    if (selectedIndex === index) return;
+    setDirection(selectedIndex > index ? 1 : -1);
+    setIndex(selectedIndex);
+    clearTimeout(timeoutRef.current); // Reset timer
+  };
 
   return (
     <section id="testimonials" className="py-8 md:py-16 relative z-10">
@@ -47,16 +66,24 @@ export const Testimonial = () => {
             className="absolute -bottom-8 right-2 text-[64px] text-red-500/20 pointer-events-none z-0"
           />
 
-          {/* Testimonial Text */}
-          <p className="relative text-xl md:text-2xl font-medium mb-8 text-center z-10 text-white-900 dark:text-white-100 drop-shadow-lg pt-12 pl-8 pr-8">
-            {content}
-          </p>
-
-          {/* Person */}
-          <div className="flex flex-col items-center justify-center mt-4 z-10">
-            <h4 className="text-lg font-bold text-red-500">{name}</h4>
-            <p className="opacity-80 text-sm text-white-700 dark:text-white-300">{position}</p>
-          </div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, x: 100 * direction }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -100 * direction }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="relative w-full z-10"
+            >
+              <p className="text-xl md:text-2xl font-medium mb-8 text-center z-10 text-white-900 dark:text-white-100 drop-shadow-lg pt-12 pl-8 pr-8">
+                {content}
+              </p>
+              <div className="flex flex-col items-center justify-center mt-4 z-10">
+                <h4 className="text-lg font-bold text-red-500">{name}</h4>
+                <p className="opacity-80 text-sm text-white-700 dark:text-white-300">{position}</p>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         {/* Dots Navigation */}
@@ -65,7 +92,7 @@ export const Testimonial = () => {
             <button
               key={i}
               aria-label={`View testimonial ${i + 1}`}
-              className={`w-3 h-3 rounded-full transition-all duration-30 
+              className={`w-5 h-5 rounded-full transition-all duration-10 
                 ${index === i
                   ? "scale-125 bg-red-500 shadow-md"
                   : "bg-gray-300 dark:bg-gray-700"
