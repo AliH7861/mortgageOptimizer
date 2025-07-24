@@ -61,13 +61,13 @@ const experiences = [
   },
   {
     type: "volunteer",
-    date: "Sept 2021 – Apr 2022",
+    date: "Sept 2024 – Apr 2025",
     position: "Frontend Developer",
     place: "OTU Enactus",
     desc: [
       "Developed project websites for research and innovation.",
       "Implemented responsive UIs with HTML, CSS, and JS.",
-      "Co-authored an award-winning research paper.",
+      "Collabrated with a group of hardworking engineers.",
     ],
     iconShade: redShades[3],
     icon: <Code className="w-7 h-7 text-gray-900" />,
