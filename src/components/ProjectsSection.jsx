@@ -22,7 +22,7 @@ const projects = [
       "Sensor Fusion", "Deep Learning", "Computer Vision", "LiDAR", "Autonomous Vehicles", "Python"
     ],
     demoUrl: "#", // Replace with your actual demo link
-    githubUrl: "https://github.com/Cognizaunce/Fusion_event" // Replace with your repo link
+    githubUrl: "https://github.com/AliH7861/Fusion_event" // Replace with your repo link
   },
   {
     id: 3,

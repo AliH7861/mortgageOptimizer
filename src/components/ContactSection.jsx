@@ -141,7 +141,7 @@ export const ContactSection = () => {
               <h4 className="font-medium mb-4 text-center">Connect With Me</h4>
               <div className="flex space-x-4 justify-center items-center">
                 <a
-                  href="https://www.linkedin.com/in/YOUR-LINKEDIN"
+                  href="https://www.linkedin.com/in/ali---husen/"
                   target="_blank"
                   aria-label="LinkedIn"
                   className="text-muted-foreground hover:text-red transition-colors"
@@ -150,7 +150,7 @@ export const ContactSection = () => {
                   <Linkedin className="w-6 h-6" />
                 </a>
                 <a
-                  href="https://github.com/YOUR-GITHUB"
+                  href="https://github.com/AliH7861"
                   target="_blank"
                   aria-label="GitHub"
                   className="text-muted-foreground hover:text-red transition-colors"
@@ -159,7 +159,7 @@ export const ContactSection = () => {
                   <Github className="w-6 h-6" />
                 </a>
                 <a
-                  href="https://instagram.com/YOUR-INSTAGRAM"
+                  href="https://instagram.com/alihxsen"
                   target="_blank"
                   aria-label="Instagram"
                   className="text-muted-foreground hover:text-red transition-colors"
