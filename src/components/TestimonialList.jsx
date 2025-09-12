@@ -13,10 +13,10 @@ const testimonialList = [
   },
   {
     img: "https://cdn.easyfrontend.com/pictures/testimonial/testimonial_square_2.jpeg",
-    name: "Sara Tailor",
-    position: "Senior Data Scientist",
+    name: "Sydney Smith",
+    position: "Special Projects Coordinator",
     content:
-      "Working with Ali was a pleasure—his skills in machine learning and leadership made every project better.",
+      "Ali consistently impressed me with his ability to take on projects and elevate them through his technical expertise. He not only applied his strong coding skills to deliver effective solutions but also took it a step further by identifying opportunities to optimize processes for future projects. ",
   },
   {
     img: "https://cdn.easyfrontend.com/pictures/testimonial/testimonial_square_1.jpeg",

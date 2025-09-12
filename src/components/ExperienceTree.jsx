@@ -1,17 +1,14 @@
 import {
   Briefcase,
-  BookOpen,
   UserCheck,
   Monitor,
-  Lightbulb,
   Code,
   Megaphone,
 } from "lucide-react";
 
-// 7 distinct colors
+
+
 const redShades = [
-  "#F87171", // ML Dev (Verdian AI)
-  "#F87171", // Research Coordinator (OTU Enactus)
   "#F87171", // Comm Assistant
   "#F87171", // Frontend Dev
   "#F87171", // Peer Leader
@@ -22,38 +19,12 @@ const redShades = [
 const experiences = [
   {
     type: "work",
-    date: "August 2025 – Present",
-    position: "Machine Learning Developer",
-    place: "Verdian AI",
-    desc: [
-      "Building bias-reduced custom summarization models using NLP and transformers.",
-      "Applying BERT/T5 and bias mitigation to real datasets.",
-      "Learning model training, fairness, and explainability for ethical AI.",
-    ],
-    iconShade: redShades[0],
-    icon: <Lightbulb className="w-7 h-7 text-gray-900" />,
-  },
-  {
-    type: "volunteer",
-    date: "July 2025 – Present",
-    position: "Research Coordinator",
-    place: "OTU Enactus",
-    desc: [
-      "Coordinating research and machine learning for 3 projects.",
-      "Mentoring 10+ team members using data-driven methods.",
-      "Applying ML for surveys and impact measurement.",
-    ],
-    iconShade: redShades[1],
-    icon: <BookOpen className="w-7 h-7 text-gray-900" />,
-  },
-  {
-    type: "work",
     date: "September 2024 – April 2025",
     position: "Communication Assistant",
     place: "Faculty of Engineering OTU",
     desc: [
       "Developed and published digital content for 4,500+ students.",
-      "Automated workflows and tracked KPIs with Python and Excel.",
+      "Automated workflows and tracked KPIs with Python and Google Sheets.",
       "Supported event communications and tech help for all programs.",
     ],
     iconShade: redShades[2],
@@ -120,13 +91,12 @@ export const ExperienceTree = () => (
         Experience <span className="text-red">Timeline</span>
       </h2>
       <div className="relative flex flex-col items-center">
-        {/* Vertical timeline line (spans whole height, always centered) */}
+       
         <div className="md:block absolute left-1/2 top-0 -translate-x-1/2 w-1 h-full bg-gray-400 z-0" />
 
         {/* Timeline steps */}
         {experiences.map((exp, i) => (
-          <div key={i} className="relative w-full flex md:mb-24 mb-16 text-left">
-            {/* On md+, alternate cards left/right, always center on mobile */}
+          <div key={i} className="relative w-full flex md:mb-5 mb-5 text-left">
             <div className={`flex-1 ${i % 2 === 0 ? "md:pr-16 md:justify-end flex" : "md:pl-16 md:justify-start flex"} justify-center`}>
               <div
                 className={`
@@ -146,12 +116,11 @@ export const ExperienceTree = () => (
                 </ul>
               </div>
             </div>
-            {/* Timeline dot/icon */}
             <div
               className="hidden md:absolute md:left-1/2 md:transform md:-translate-x-1/2 md:z-10 md:flex md:flex-col md:items-center"
               style={{
                 top: "50%",
-                marginTop: "-28px", // half of icon box height
+                marginTop: "-28px", 
               }}
             >
               <div
@@ -168,7 +137,6 @@ export const ExperienceTree = () => (
               >
                 {exp.icon}
               </div>
-              {/* Small connecting line below icon except for last step */}
               {i !== experiences.length - 1 && (
                 <div
                   className="hidden md:block"
