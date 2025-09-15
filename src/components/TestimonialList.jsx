@@ -29,12 +29,12 @@ const testimonialList = [
 
 export const Testimonial = () => {
   const [index, setIndex] = useState(0);
-  const [direction, setDirection] = useState(1); // 1 for next, -1 for prev
+  const [direction, setDirection] = useState(1); 
   const timeoutRef = useRef(null);
 
   const { img, name, position, content } = testimonialList[index];
 
-  // Auto-advance every 15 seconds
+
   useEffect(() => {
     timeoutRef.current = setTimeout(() => {
       setDirection(1);
@@ -44,19 +44,19 @@ export const Testimonial = () => {
     return () => clearTimeout(timeoutRef.current);
   }, [index]);
 
-  // Manual dot click
+
   const handleSelect = (selectedIndex) => {
     if (selectedIndex === index) return;
     setDirection(selectedIndex > index ? 1 : -1);
     setIndex(selectedIndex);
-    clearTimeout(timeoutRef.current); // Reset timer
+    clearTimeout(timeoutRef.current); 
   };
 
   return (
     <section id="testimonials" className="py-8 md:py-16 relative z-10">
       <div className="container px-4 mx-auto max-w-3xl">
         <div className="relative flex flex-col items-center text-center">
-          {/* Decorative Quotes */}
+          
           <FontAwesomeIcon
             icon={faQuoteLeft}
             className="absolute -top-8 left-2 text-[64px] text-red-500/20 pointer-events-none z-0 pb-4"
@@ -86,7 +86,7 @@ export const Testimonial = () => {
           </AnimatePresence>
         </div>
 
-        {/* Dots Navigation */}
+        
         <div className="flex justify-center gap-2 mt-8">
           {testimonialList.map((item, i) => (
             <button

@@ -3,58 +3,58 @@ import {
   Cpu,
   ChartPie,
   Layers,
-  Users,
   ClipboardCheck,
-  HeartHandshake,
+  Lightbulb,
   TrendingUp,
   Flame,
+  BookOpen,
 } from "lucide-react";
 
 const cards = [
   {
     icon: <Code className="h-10 w-10 text-red-500" />,
-    title: "Full-Stack & AI Development",
-    desc: "Building robust web apps and scalable ML/AI solutions with React, FastAPI, TensorFlow, and more.",
+    title: "Full-Stack AI Development (EcoBin AI)",
+    desc: "Built a full-stack AI app using ResNet50 to classify household waste, with authentication, analytics, and dashboards.",
   },
   {
     icon: <ChartPie className="h-10 w-10 text-red-500" />,
     title: "Data Science & Visualization",
-    desc: "Cleaning, analyzing, and visualizing data to uncover insights using Python, Pandas, and modern BI tools.",
+    desc: "Used Python, Pandas, NumPy, and Matplotlib to uncover insights for a financial optimizer, replicating real-world scenarios.",
   },
   {
     icon: <Layers className="h-10 w-10 text-red-500" />,
-    title: "Deep Learning & Feature Engineering",
-    desc: "Designing neural networks, extracting meaningful features, and optimizing models for real-world tasks.",
-  },
-  {
-    icon: <Users className="h-10 w-10 text-red-500" />,
-    title: "Teamwork & Collaboration",
-    desc: "Thriving in diverse teams, bringing together tech and people to achieve common goals.",
-  },
-  {
-    icon: <ClipboardCheck className="h-10 w-10 text-red-500" />,
-    title: "Project Management",
-    desc: "Leading projects from concept to launch with agile methods and clear communication.",
-  },
-  {
-    icon: <HeartHandshake className="h-10 w-10 text-red-500" />,
-    title: "Emotional Intelligence",
-    desc: "Active listener, empathetic collaborator, and strong advocate for mental well-being in tech spaces.",
-  },
-  {
-    icon: <TrendingUp className="h-10 w-10 text-red-500" />,
-    title: "Marketing & Branding",
-    desc: "Promoting projects and building brands through digital marketing, storytelling, and audience engagement.",
-  },
-  {
-    icon: <Flame className="h-10 w-10 text-red-500" />,
-    title: "Hackathon & Entrepreneurship",
-    desc: "Competing, winning, and launching ideas fast in high-pressure, innovative settings.",
+    title: "Feature Engineering & Preprocessing",
+    desc: "Applied preprocessing techniques to clean, transform, and optimize datasets for reliable ML performance.",
   },
   {
     icon: <Cpu className="h-10 w-10 text-red-500" />,
-    title: "Continuous Learning & Mentorship",
-    desc: "Committed to lifelong learning, mentoring others, and always adapting to new challenges.",
+    title: "Deep Learning (ResNet50)",
+    desc: "Fine-tuned ResNet50 for computer vision tasks, applying deep learning to real-world classification problems.",
+  },
+  {
+    icon: <ClipboardCheck className="h-10 w-10 text-red-500" />,
+    title: "Project Management & Leadership",
+    desc: "Served as VP Marketing of FYIC, developing leadership through event management and communication.",
+  },
+  {
+    icon: <Lightbulb className="h-10 w-10 text-red-500" />,
+    title: "Problem-Solving & Critical Thinking",
+    desc: "Tackled coding challenges and design issues by breaking down complex problems into actionable solutions.",
+  },
+  {
+    icon: <TrendingUp className="h-10 w-10 text-red-500" />,
+    title: "Growth Mindset & Adaptability",
+    desc: "Learned new tools quickly, adapted to project needs, and embraced feedback to improve continuously.",
+  },
+  {
+    icon: <Flame className="h-10 w-10 text-red-500" />,
+    title: "Hackathons & Competitions",
+    desc: "Competed in hackathons and competitions, rapidly prototyping ideas under time pressure.",
+  },
+  {
+    icon: <BookOpen className="h-10 w-10 text-red-500" />,
+    title: "Passion to Grow & Learn",
+    desc: "Enthusiastic about AI, software, and people combining technical expertise with curiosity and creativity.",
   },
 ];
 
