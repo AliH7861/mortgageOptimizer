@@ -27,7 +27,7 @@ const experiences = [
       "Automated workflows and tracked KPIs with Python and Google Sheets.",
       "Supported event communications and tech help for all programs.",
     ],
-    iconShade: redShades[2],
+    iconShade: redShades[0],
     icon: <Briefcase className="w-7 h-7 text-gray-900" />,
   },
   {
@@ -40,7 +40,7 @@ const experiences = [
       "Implemented responsive UIs with HTML, CSS, and JS.",
       "Collabrated with a group of hardworking engineers.",
     ],
-    iconShade: redShades[3],
+    iconShade: redShades[1],
     icon: <Code className="w-7 h-7 text-gray-900" />,
   },
   {
@@ -53,7 +53,7 @@ const experiences = [
       "Led workshops and built a supportive learning environment.",
       "Collaborated with faculty on student engagement initiatives.",
     ],
-    iconShade: redShades[4],
+    iconShade: redShades[2],
     icon: <UserCheck className="w-7 h-7 text-gray-900" />,
   },
   {
@@ -66,7 +66,7 @@ const experiences = [
       "Managed all social media, content, and analytics.",
       "Supervised a team of 5, drove outreach to 500+ students.",
     ],
-    iconShade: redShades[5],
+    iconShade: redShades[3],
     icon: <Megaphone className="w-7 h-7 text-gray-900" />,
   },
   {
@@ -79,7 +79,7 @@ const experiences = [
       "Designed and delivered a virtual bootcamp curriculum.",
       "Organized and hosted 3 hackathons for new coders.",
     ],
-    iconShade: redShades[6],
+    iconShade: redShades[4],
     icon: <Monitor className="w-7 h-7 text-gray-900" />,
   },
 ];

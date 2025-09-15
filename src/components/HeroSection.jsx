@@ -3,14 +3,14 @@ import { ArrowDown } from "lucide-react";
 
 const titles = [
   "a Machine Learning Engineer",
-  "an AI Enthusiast",
   "a Software Engineer",
-  "a Problem Solver",
-  "a Tech Innovator",
   "a Developer",
   "a Model Builder",
   "a Researcher",
+  "a Problem Solver",
+  "a Tech Innovator",
   "a Creative Coder",
+  "an AI Enthusiast",
 ];
 
 export const HeroSection = () => {
