@@ -190,3 +190,29 @@
 .bordertesting{
   border: 5px solid white;
 }
+
+.suse-mono-header {
+  font-family: "SUSE Mono", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100;  /* bold */
+  font-style: normal;
+}
+
+.font-size100{
+  font-size: 50px;
+}
+
+/* Remove default number input spinners */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+.text-green {
+  color: #42e57e; /* Tailwind's green-400 */
+}

@@ -1,23 +1,29 @@
 import { ThemeToggle } from "../components/ThemeToggle";
-import { StarBackground } from "@/components/StarBackground";
 
 export const NotFound = () => {
   return (
-    <div className="relative min-h-screen overflow-x-hidden">
-      <div className="absolute inset-0 bg-background text-foreground">
-        {/* Theme Toggle */}
-        <StarBackground />
+    <div className="relative min-h-screen bg-black text-white flex flex-col">
+      {/* === Header w/ ThemeToggle === */}
+      <header className="w-full flex justify-end px-6 py-4">
         <ThemeToggle />
-        <div className="container mx-auto max-w-5xl flex flex-col items-center justify-center h-screen">
-          <h1 className="text-6xl font-bold mb-4 text-red-500">404</h1>
-          <p className="text-xl mb-8 text-muted-foreground">
-            Oops! The page you are looking for does not exist.
-          </p>
-          <h2 className="text-4xl font-bold flex justify-center items-center text-red-500">
-            Not Found
-          </h2>
-        </div>
-      </div>
+      </header>
+
+      {/* === Main Content === */}
+      <main className="flex-1 flex flex-col items-center justify-center text-center px-6">
+        <h1 className="text-8xl font-extrabold mb-4 
+          text-transparent bg-clip-text 
+          bg-gradient-to-r from-green-500 via-green-400 to-green-300 
+          drop-shadow-[0_0_20px_rgba(0,255,100,0.7)]">
+          404
+        </h1>
+        <p className="text-lg md:text-xl mb-6 text-gray-400">
+          Oops! The page you are looking for does not exist.
+        </p>
+        <h2 className="text-3xl md:text-4xl font-semibold 
+          text-green-400 drop-shadow-[0_0_10px_rgba(0,255,100,0.5)]">
+          Not Found
+        </h2>
+      </main>
     </div>
   );
 };

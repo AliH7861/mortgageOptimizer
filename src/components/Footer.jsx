@@ -2,15 +2,14 @@ import { ArrowUp } from "lucide-react";
 
 export const Footer = () => {
   return (
-    <footer className="py-12 px-4 bg-card relative border-t border-border mt-12 pt-8 flex flex-wrap justify-between items-center">
-      {" "}
-      <p className="text-sm text-muted-foreground">
-        {" "}
-        &copy; {new Date().getFullYear()} 𝕬𝕳.co. All rights reserved.
+    <footer className="py-8 px-6 bg-black border-t border-green-500/20 mt-16 flex flex-wrap justify-between items-center">
+      <p className="text-sm text-gray-400">
+        &copy; {new Date().getFullYear()} MortgageOptimizer.co — All rights reserved.
       </p>
       <a
         href="#hero"
-        className="p-2 rounded-full bg-red/10 hover:bg-redy/20 text-red transition-colors"
+        className="p-2 rounded-full bg-green-500/10 hover:bg-green-500/20 text-green-400 
+          transition-colors shadow-[0_0_12px_rgba(0,255,100,0.4)] hover:shadow-[0_0_20px_rgba(0,255,100,0.6)]"
       >
         <ArrowUp size={20} />
       </a>

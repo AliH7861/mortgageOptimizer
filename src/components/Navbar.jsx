@@ -4,14 +4,8 @@ import { useEffect, useState } from "react";
 import { ThemeToggle } from "./ThemeToggle"; // Update path as needed
 
 const navItems = [
-  { name: "Home", href: "#hero" },
-  { name: "About", href: "#about" },
-  { name: "Services", href: "#services" },
-  { name: "Experience", href: "#experience" },
-  { name: "Skills", href: "#skills" },
-  { name: "Projects", href: "#projects" },
-  { name: "Testimonials", href: "#testimonials" },
-  { name: "Contact", href: "#contact" },
+ 
+
 ];
 
 export const Navbar = () => {

@@ -1,37 +1,28 @@
-import { Navbar } from "../components/Navbar";
-import { ThemeToggle } from "../components/ThemeToggle";
-import { StarBackground } from "@/components/StarBackground";
-import { HeroSection } from "../components/HeroSection";
-import { AboutSection } from "../components/AboutSection";
-import { SkillsSection } from "../components/SkillsSection";
-import { ProjectsSection } from "../components/ProjectsSection";
-import { ContactSection } from "../components/ContactSection";
 import { Footer } from "../components/Footer";
-import { PersonalGrid } from "../components/personalGrid";
-import { ExperienceTree } from "../components/ExperienceTree";
-import { Testimonial } from "../components/TestimonialList";
+import { BinaryOutput } from "../components/BinaryOutput";
+import { MortgageHeader } from "../components/MortgageHeader";
+import { FormA_NewBuyers } from "../components/FormA_NewBuyers";
+import { FormB_ReturningBuyers } from "../components/FormB_ReturningBuyers";
+import { MortgageOption } from "../components/MortgageOption";
+
+// import {MortgageOption} from "../components/MortgageOption"
+
 
 
 export const Home = () => {
   return (
     <>
       {/* Background Effects */}
-      <StarBackground />
-      <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      
+      <div className="min-h-screen bg-black text-foreground overflow-x-hidden ">
         
         
         {/* Navbar */}
-        <Navbar />
+    
+        <MortgageHeader/>
         {/* Main Content */}
         <main>
-          <HeroSection />
-          <AboutSection />
-          <PersonalGrid />
-          <ExperienceTree/>
-          <SkillsSection />
-          <ProjectsSection />
-          <Testimonial />
-          <ContactSection />
+         <MortgageOption/> 
         </main>
         {/* Footer */}
         <Footer />
