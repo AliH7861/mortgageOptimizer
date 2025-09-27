@@ -2,7 +2,7 @@ import React from "react";
 
 export const MortgageHeader = () => {
   return (
-    <header className="w-full bg-black py-6 shadow-md" id="hero">
+    <header className="w-full  py-6 shadow-md" id="hero">
       <div className="container mx-auto flex justify-center items-center">
         <h1
           className="text-5xl md:text-6xl font-light tracking-[0.25em] 

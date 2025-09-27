@@ -2,7 +2,7 @@ import { ArrowUp } from "lucide-react";
 
 export const Footer = () => {
   return (
-    <footer className="py-8 px-6 bg-black border-t border-green-500/20 mt-16 flex flex-wrap justify-between items-center">
+    <footer className="py-8 px-6 bg-black/20 border-t border-green-500/20 mt-16 flex flex-wrap justify-between items-center">
       <p className="text-sm text-gray-400">
         &copy; {new Date().getFullYear()} MortgageOptimizer.co — All rights reserved.
       </p>

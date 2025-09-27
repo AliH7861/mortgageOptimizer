@@ -49,7 +49,7 @@ const FloatingInput = ({ label, type, name, step, value, onChange, increment, de
 
 // === Preferences Slider ===
 const PreferenceSlider = ({ name, label, value, onChange }) => (
-  <div className="flex flex-col pb-4 border-b border-green-500/10 last:border-none">
+  <div className="flex flex-col pb-4 border-b border-green-500/30 last:border-none">
     <label className="mb-2 text-sm font-semibold tracking-widest uppercase text-green-300">
       {label}
     </label>
@@ -123,7 +123,7 @@ export const FormB_ReturningBuyers = () => {
           <div className="space-y-13">
             {/* Personal & Employment */}
             <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 
-              shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/10">
+              shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/30">
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Personal & Employment
               </h2>
@@ -167,7 +167,7 @@ export const FormB_ReturningBuyers = () => {
 
             {/* Property & Mortgage */}
             <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 
-              shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/10">
+              shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/30">
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Property & Mortgage (Current)
               </h2>
@@ -240,7 +240,7 @@ export const FormB_ReturningBuyers = () => {
 
           {/* === Right Column (Preferences) === */}
           <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-7 
-            shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/10">
+            shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/30">
             <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
               Preferences
             </h2>
@@ -287,7 +287,7 @@ export const FormB_ReturningBuyers = () => {
 
         {/* === Bottom: Financial === */}
         <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 
-          shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/10">
+          shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/30">
           <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
             Financial
           </h2>

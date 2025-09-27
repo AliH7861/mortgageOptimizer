@@ -1,33 +1,32 @@
 import { Footer } from "../components/Footer";
-import { BinaryOutput } from "../components/BinaryOutput";
 import { MortgageHeader } from "../components/MortgageHeader";
-import { FormA_NewBuyers } from "../components/FormA_NewBuyers";
-import { FormB_ReturningBuyers } from "../components/FormB_ReturningBuyers";
 import { MortgageOption } from "../components/MortgageOption";
-
-// import {MortgageOption} from "../components/MortgageOption"
-
-
+import { FintechBackground } from "../components/FintechBackground"; // make sure path is correct
 
 export const Home = () => {
   return (
     <>
-      {/* Background Effects */}
       
-      <div className="min-h-screen bg-black text-foreground overflow-x-hidden ">
+      <div className="relative min-h-screen bg-black text-white overflow-hidden">
+        {/* Animated Fintech Background */}
+        <FintechBackground />
+
         
-        
-        {/* Navbar */}
-    
-        <MortgageHeader/>
-        {/* Main Content */}
-        <main>
-         <MortgageOption/> 
-        </main>
-        {/* Footer */}
-        <Footer />
+        <div className="relative z-10">
+         
+          <MortgageHeader />
+
+          
+          <main className="px-6 py-12">
+            <MortgageOption />
+          </main>
+
+          
+          <Footer />
+        </div>
       </div>
     </>
   );
 };
+
 

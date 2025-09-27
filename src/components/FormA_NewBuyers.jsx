@@ -119,7 +119,7 @@ export const FormA_NewBuyers = () => {
           <div className="space-y-7">
             {/* Personal & Employment */}
             <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 
-              shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/10">
+              shadow-[0_0_25px_rgba(0,255,200,0.15)] border border-white/34">
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Personal & Employment
               </h2>
@@ -163,7 +163,7 @@ export const FormA_NewBuyers = () => {
 
             {/* Property & Mortgage */}
             <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 
-              shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/10">
+              shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/34">
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Property & Mortgage
               </h2>
@@ -210,7 +210,7 @@ export const FormA_NewBuyers = () => {
 
             {/* Financial */}
             <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 
-              shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/10">
+              shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/34">
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Financial
               </h2>
@@ -252,7 +252,7 @@ export const FormA_NewBuyers = () => {
           <div className="space-y-12">
             {/* Preferences A */}
             <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 
-              shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/10">
+              shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/34">
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Preferences A
               </h2>
@@ -280,7 +280,7 @@ export const FormA_NewBuyers = () => {
 
             {/* Preferences B */}
             <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 
-              shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/10">
+              shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/34">
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Preferences B
               </h2>
