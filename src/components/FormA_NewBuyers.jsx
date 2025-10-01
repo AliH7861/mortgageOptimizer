@@ -1,6 +1,69 @@
 import React, { useState } from "react";
 
-// === Floating Label Input with Custom Buttons for Number Fields ===
+/* ======================================================
+   BinaryOutput (two simple sentence boxes)
+   ====================================================== */
+const BinaryOutput = ({ decision, confidence, rateType, rate }) => {
+  const hasConf = Number.isFinite(confidence);
+  const hasRate = Number.isFinite(rate);
+  const approved = (decision || "").toUpperCase() === "PASS";
+
+  return (
+    <section id="binaryOutput" className="w-full max-w-7xl mx-auto mt-12">
+      {/* Header */}
+      <div className="bg-black/60 border border-green-500/30 rounded-t-2xl px-6 py-3 
+        text-xs tracking-[0.25em] uppercase text-green-300 text-center
+        shadow-[0_0_12px_rgba(0,255,100,0.2)]">
+        Model Output Results
+      </div>
+
+      {/* Two boxes */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 
+        bg-black/40 border border-green-500/30 rounded-b-2xl 
+        p-6 shadow-[0_0_20px_rgba(0,255,100,0.25)]">
+        
+        {/* Box 1: Mortgage Decision */}
+        <div className="bg-black/60 rounded-xl border border-green-500/20 
+          shadow-[0_0_15px_rgba(0,255,100,0.15)] p-6 text-center">
+          <h3 className="text-sm uppercase tracking-widest text-green-300 mb-3">
+            Mortgage Decision
+          </h3>
+          <p className="text-green-400 font-mono text-lg">
+            {decision
+              ? `The model decided to ${decision}.`
+              : "Waiting for mortgage decision..."}
+          </p>
+          {hasConf && (
+            <p className="text-xs text-gray-400 mt-2">
+              Confidence: {(confidence * 100).toFixed(1)}%
+            </p>
+          )}
+        </div>
+
+        {/* Box 2: Rate Decision */}
+        <div className="bg-black/60 rounded-xl border border-green-500/20 
+          shadow-[0_0_15px_rgba(0,255,100,0.15)] p-6 text-center">
+          <h3 className="text-sm uppercase tracking-widest text-green-300 mb-3">
+            Rate Decision
+          </h3>
+          <p className="text-green-400 font-mono text-lg">
+            {!decision
+              ? "Waiting for rate decision..."
+              : !approved
+              ? "The model cannot recommend a rate because the application was not approved."
+              : rateType
+              ? `The model decided to give you a ${rateType} rate${hasRate ? ` at ${rate}%` : ""}.`
+              : "Waiting for rate decision..."}
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ======================================================
+   Floating Label Input with +/- buttons (numbers)
+   ====================================================== */
 const FloatingInput = ({ label, type, name, step, value, onChange, increment, decrement }) => (
   <div className="relative">
     <input
@@ -25,7 +88,6 @@ const FloatingInput = ({ label, type, name, step, value, onChange, increment, de
       {label}
     </label>
 
-    {/* Custom mini buttons for number inputs */}
     {type === "number" && (
       <div className="absolute right-2 top-1/2 -translate-y-1/2 flex flex-col space-y-1">
         <button
@@ -47,12 +109,69 @@ const FloatingInput = ({ label, type, name, step, value, onChange, increment, de
   </div>
 );
 
-// === Preferences Slider ===
+/* ======================================================
+   Floating Stepper (enum values)
+   ====================================================== */
+const FloatingStepper = ({ label, name, options, value, setValue }) => {
+  const currentIndex = Math.max(0, options.indexOf(value));
+  const increment = () => setValue(options[(currentIndex + 1) % options.length]);
+  const decrement = () => setValue(options[(currentIndex - 1 + options.length) % options.length]);
+
+  return (
+    <div className="relative">
+      <input
+        type="text"
+        name={name}
+        value={value}
+        readOnly
+        placeholder=" "
+        className="peer w-full rounded-full bg-black/30 backdrop-blur-md 
+          border border-green-500/30 text-gray-300 px-4 py-3 
+          focus:outline-none focus:ring-2 focus:ring-green-400 
+          focus:border-green-500 placeholder-transparent
+          shadow-[0_0_10px_rgba(0,255,100,0.3)] pr-14
+          peer-focus:text-white"
+      />
+      <label
+        className="absolute left-4 -top-2 text-xs text-green-400 
+          transition-all peer-placeholder-shown:top-3 
+          peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 
+          peer-focus:-top-2 peer-focus:text-xs peer-focus:text-green-400"
+      >
+        {label}
+      </label>
+
+      <div className="absolute right-2 top-1/2 -translate-y-1/2 flex flex-col space-y-1">
+        <button
+          type="button"
+          onClick={increment}
+          className="w-5 h-3 text-green-400 hover:text-green-300 text-xs leading-none flex items-center justify-center"
+        >
+          ▲
+        </button>
+        <button
+          type="button"
+          onClick={decrement}
+          className="w-5 h-3 text-green-400 hover:text-green-300 text-xs leading-none flex items-center justify-center"
+        >
+          ▼
+        </button>
+      </div>
+    </div>
+  );
+};
+
+/* ======================================================
+   Preference Slider
+   ====================================================== */
 const PreferenceSlider = ({ name, label, value, onChange }) => (
   <div className="flex flex-col pb-3 border-b border-green-500/10 last:border-none">
-    <label className="mb-1 text-xs tracking-widest uppercase text-green-300">
-      {label}
-    </label>
+    <div className="flex justify-between items-center mb-1">
+      <label className="text-xs tracking-widest uppercase text-green-300">{label}</label>
+      <span className="text-xs text-green-400 font-mono">
+        {parseFloat(value).toFixed(2)}
+      </span>
+    </div>
     <input
       type="range"
       min="0"
@@ -70,6 +189,9 @@ const PreferenceSlider = ({ name, label, value, onChange }) => (
   </div>
 );
 
+/* ======================================================
+   FormA_NewBuyers (FULL)
+   ====================================================== */
 export const FormA_NewBuyers = () => {
   const [formData, setFormData] = useState({
     age: "",
@@ -91,6 +213,9 @@ export const FormA_NewBuyers = () => {
     pref_flexibility: 0.5,
   });
 
+  const [apiResult, setApiResult] = useState(null);
+  const [apiError, setApiError] = useState(null);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -110,16 +235,65 @@ export const FormA_NewBuyers = () => {
     });
   };
 
+  const handleSubmit = async () => {
+    try {
+      const toNum = (v, fallback = 0) => {
+        const n = typeof v === "string" ? v.trim() : v;
+        const p = Number(n);
+        return Number.isFinite(p) ? p : fallback;
+      };
+
+      const payload = {
+        age: toNum(formData.age),
+        employment_type: formData.employmentType || "full_time",
+        employment_years: toNum(formData.employmentYears),
+        income_monthly: toNum(formData.incomeMonthly),
+        credit_score: toNum(formData.creditScore),
+        property_value: toNum(formData.propertyValue),
+        mortgage_balance: toNum(formData.mortgageBalance),
+        amortization_remaining: toNum(formData.amortizationYears),
+        monthly_payment_current: 0, // new buyers
+        expenses_monthly: toNum(formData.expensesMonthly),
+        debt_payments_monthly: toNum(formData.debtPaymentsMonthly),
+        interest_rate_current: toNum(formData.interestRate),
+        rate_type: "fixed", // initial choice; backend can override
+        pref_low_payment: toNum(formData.pref_low_payment, 0.5),
+        pref_flexibility: toNum(formData.pref_flexibility, 0.5),
+        pref_stability: toNum(formData.pref_stability, 0.5),
+        pref_fast_payoff: toNum(formData.pref_fast_payoff, 0.5),
+        pref_equity_growth: toNum(formData.pref_equity_growth, 0.5),
+        pref_risk_tolerance: toNum(formData.pref_risk_tolerance, 0.5),
+        steady_payment: 1,
+      };
+
+      const API_BASE = "http://localhost:8080/api/mortgage";
+      const res = await fetch(`${API_BASE}/approval`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.message || data?.error || `Request failed (${res.status})`);
+
+      setApiResult(data);
+      setApiError(null);
+    } catch (err) {
+      console.error("Approval error:", err);
+      setApiError(String(err));
+      setApiResult(null);
+    }
+  };
+
   return (
     <div className="flex justify-center px-4 mt-10">
       <div className="w-full max-w-7xl">
-        {/* === Main Layout === */}
+        {/* =================== Main Layout =================== */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {/* === Left Column (Personal + Property + Financial) === */}
+          {/* Left column */}
           <div className="space-y-7">
             {/* Personal & Employment */}
-            <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 
-              shadow-[0_0_25px_rgba(0,255,200,0.15)] border border-white/34">
+            <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 shadow-[0_0_25px_rgba(0,255,200,0.15)] border border-white/34">
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Personal & Employment
               </h2>
@@ -133,12 +307,12 @@ export const FormA_NewBuyers = () => {
                   increment={() => increment("age")}
                   decrement={() => decrement("age")}
                 />
-                <FloatingInput
-                  type="text"
-                  name="employmentType"
+                <FloatingStepper
                   label="Employment Type"
+                  name="employmentType"
                   value={formData.employmentType}
-                  onChange={handleChange}
+                  setValue={(val) => setFormData((prev) => ({ ...prev, employmentType: val }))}
+                  options={["self_employed", "unemployed", "contract", "full_time"]}
                 />
                 <FloatingInput
                   type="number"
@@ -162,8 +336,7 @@ export const FormA_NewBuyers = () => {
             </div>
 
             {/* Property & Mortgage */}
-            <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 
-              shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/34">
+            <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/34">
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Property & Mortgage
               </h2>
@@ -209,8 +382,7 @@ export const FormA_NewBuyers = () => {
             </div>
 
             {/* Financial */}
-            <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 
-              shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/34">
+            <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/34">
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Financial
               </h2>
@@ -248,11 +420,10 @@ export const FormA_NewBuyers = () => {
             </div>
           </div>
 
-          {/* === Right Column (Preferences split into 2 cards) === */}
+          {/* Right column */}
           <div className="space-y-12">
             {/* Preferences A */}
-            <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 
-              shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/34">
+            <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/34">
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Preferences A
               </h2>
@@ -279,8 +450,7 @@ export const FormA_NewBuyers = () => {
             </div>
 
             {/* Preferences B */}
-            <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 
-              shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/34">
+            <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/34">
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Preferences B
               </h2>
@@ -308,18 +478,35 @@ export const FormA_NewBuyers = () => {
           </div>
         </div>
 
-        {/* === Submit Button === */}
-        <div className="mt-12 flex justify-center mb-5">
+        {/* =================== Submit + Output =================== */}
+        <div className="mt-12 flex flex-col items-center mb-5">
           <button
-            type="submit"
+            type="button"
             className="px-12 py-3 rounded-full font-semibold text-black 
               bg-gradient-to-r from-green-400 via-green-500 to-lime-400 
               hover:from-green-500 hover:via-green-600 hover:to-lime-500 
               shadow-[0_0_25px_rgba(0,255,100,0.6)] 
               transition-all hover:scale-105"
+            onClick={handleSubmit}
           >
             Run Optimization
           </button>
+
+          {/* Output boxes (no raw JSON) */}
+          {apiResult && (
+            <BinaryOutput
+              decision={apiResult?.decision}
+              confidence={apiResult?.approval_probability}
+              rateType={apiResult?.rate_type}
+              rate={apiResult?.rate_percent ?? null}
+            />
+          )}
+
+          {apiError && (
+            <div className="mt-6 p-4 bg-red-900/40 border border-red-500/30 rounded-xl w-full max-w-xl text-red-300 font-mono text-sm">
+              Error: {apiError}
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -34,7 +34,7 @@ export const MortgageOption = () => {
       {/* Render Form A or B */}
       <div className="w-full max-w-7xl">
         {selected === "new" ? <FormA_NewBuyers /> : <FormB_ReturningBuyers />}
-         {selected === "new" ? <BinaryOutput /> : <BinaryOutputB />}
+        
       </div>
     </div>
   );

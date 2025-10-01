@@ -20,48 +20,31 @@ export const BinaryOutput = ({ decision, confidence, rate, scenarios }) => {
         <div className="bg-black/60 rounded-xl border border-green-500/20 
           shadow-[0_0_15px_rgba(0,255,100,0.15)] p-6 text-center">
           <h3 className="text-sm uppercase tracking-widest text-green-300 mb-3">
-            Fixed vs Variable
+            Mortgage Decision
           </h3>
-          <div className="text-green-400 font-mono text-lg">
-            {decision ? (
-              <>
-                <span className="text-green-300">Decision →</span>{" "}
-                <span className="font-bold">{decision}</span>{" "}
-                <span className="text-gray-400">
-                  ({(confidence * 100).toFixed(1)}%) @ {rate}%
-                </span>
-              </>
-            ) : (
-              <span className="text-gray-500 italic">Waiting for model output...</span>
-            )}
-          </div>
+          <p className="text-green-400 font-mono text-lg">
+            {decision
+              ? `The model decided to ${decision}.`
+              : "Waiting for mortgage decision..."}
+          </p>
+          {confidence !== undefined && (
+            <p className="text-xs text-gray-400 mt-2">
+              Confidence: {(confidence * 100).toFixed(1)}%
+            </p>
+          )}
         </div>
 
-        {/* Right Box (Top 3 Recommendations) */}
+        {/* Right Box (Rate Recommendation) */}
         <div className="bg-black/60 rounded-xl border border-green-500/20 
           shadow-[0_0_15px_rgba(0,255,100,0.15)] p-6 text-center">
           <h3 className="text-sm uppercase tracking-widest text-green-300 mb-3">
-            Mortgage Pass or Fail
+            Rate Decision
           </h3>
-          <div className="text-green-400 font-mono space-y-2">
-            {scenarios && scenarios.length > 0 ? (
-              scenarios.map((s, idx) => (
-                <div
-                  key={idx}
-                  className="flex justify-center space-x-2 text-green-300"
-                >
-                  <span className="font-bold text-green-400">{idx + 1}.</span>
-                  <span className="font-semibold">{s.name}</span>
-                  <span className="text-gray-400">@ {s.rate}%</span>
-                  <span className="text-sm text-gray-500">
-                    ({(s.confidence * 100).toFixed(1)}%)
-                  </span>
-                </div>
-              ))
-            ) : (
-              <span className="text-gray-500 italic">Waiting for model output...</span>
-            )}
-          </div>
+          <p className="text-green-400 font-mono text-lg">
+            {rate
+              ? `The model decided to give you a ${decision?.toLowerCase() === "fail" ? "N/A" : "Fixed/Variable"} rate at ${rate}%.`
+              : "Waiting for rate decision..."}
+          </p>
         </div>
       </div>
     </section>
