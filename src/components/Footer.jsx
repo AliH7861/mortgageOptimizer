@@ -6,7 +6,7 @@ export const Footer = () => {
       className="py-8 px-6 bg-black/20 border-t border-green-500/20 mt-16 
       flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left"
     >
-      <p className="text-sm text-gray-400">
+      <p className="text-sm text-gray-400 mb-3">
         &copy; {new Date().getFullYear()} MortgageOptimizer.co — All rights reserved.
       </p>
 
