@@ -302,7 +302,7 @@ export const FormB_ReturningBuyers = () => {
                   value={formData.currentRateType}
                   setValue={(val) => setFormData((prev) => ({ ...prev, currentRateType: val }))}
                   options={["Fixed", "Variable"]} />
-                <FloatingInput type="number" name="mortgageTermYears" label="Mortgage Term (Years)"
+                <FloatingInput type="number" name="mortgageTermYears" label="Mortgage Term(Yrs)"
                   value={formData.mortgageTermYears} onChange={handleChange}
                   increment={() => increment("mortgageTermYears")} decrement={() => decrement("mortgageTermYears")} />
                 <FloatingInput type="number" name="remainingAmortizationYears" label="Remaining Amortization (Years)"
