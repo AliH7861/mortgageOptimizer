@@ -268,7 +268,7 @@ export const FormB_ReturningBuyers = () => {
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Personal & Employment
               </h2>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FloatingInput type="number" name="age" label="Age" value={formData.age}
                   onChange={handleChange} increment={() => increment("age")} decrement={() => decrement("age")} />
                 <FloatingStepper label="Employment Type" name="employmentType"
@@ -288,7 +288,7 @@ export const FormB_ReturningBuyers = () => {
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Property & Mortgage (Current)
               </h2>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FloatingInput type="number" name="currentPropertyValue" label="Current Property Value"
                   value={formData.currentPropertyValue} onChange={handleChange}
                   increment={() => increment("currentPropertyValue")} decrement={() => decrement("currentPropertyValue")} />
