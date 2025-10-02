@@ -307,9 +307,10 @@ export const FormA_NewBuyers = () => {
                   increment={() => increment("age")}
                   decrement={() => decrement("age")}
                 />
+
                 <FloatingStepper
-                  label="Employment Type"
                   name="employmentType"
+                  label="Employment Type"
                   value={formData.employmentType}
                   setValue={(val) => setFormData((prev) => ({ ...prev, employmentType: val }))}
                   options={["self_employed", "unemployed", "contract", "full_time"]}

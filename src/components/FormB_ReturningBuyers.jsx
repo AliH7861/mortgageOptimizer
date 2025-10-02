@@ -305,7 +305,7 @@ export const FormB_ReturningBuyers = () => {
                 <FloatingInput type="number" name="mortgageTermYears" label="Mortgage Term(Yrs)"
                   value={formData.mortgageTermYears} onChange={handleChange}
                   increment={() => increment("mortgageTermYears")} decrement={() => decrement("mortgageTermYears")} />
-                <FloatingInput type="number" name="remainingAmortizationYears" label="Remaining Amortization (Yrs)"
+                <FloatingInput type="number" name="remainingAmortizationYears" label="Remaining Amortization(Yrs)"
                   value={formData.remainingAmortizationYears} onChange={handleChange}
                   increment={() => increment("remainingAmortizationYears")} decrement={() => decrement("remainingAmortizationYears")} />
                 <FloatingInput type="number" name="currentMonthlyPayment" label="Current Monthly Payment"
