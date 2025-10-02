@@ -195,7 +195,7 @@ const PreferenceSlider = ({ name, label, value, onChange }) => (
 export const FormA_NewBuyers = () => {
   const [formData, setFormData] = useState({
     age: "",
-    employmentType: "",
+    employmentType: " ",
     employmentYears: "",
     creditScore: "",
     incomeMonthly: "",
@@ -297,7 +297,7 @@ export const FormA_NewBuyers = () => {
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Personal & Employment
               </h2>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FloatingInput
                   type="number"
                   name="age"
@@ -340,7 +340,7 @@ export const FormA_NewBuyers = () => {
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Property & Mortgage
               </h2>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FloatingInput
                   type="number"
                   name="propertyValue"
