@@ -8,6 +8,9 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/mortgage")
+
+
+
 // Allow both Vite (5173) and CRA (3000) dev servers
 @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"})
 public class Hello {
@@ -16,25 +19,25 @@ public class Hello {
 
     public Hello() {
         this.webClient = WebClient.builder()
-                .baseUrl("http://localhost:8001") // FastAPI base URL
+                .baseUrl("http://localhost:8001") // FastAPI URL
                 .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .build();
     }
 
-    // --- Test Route ---
+    // Test Route
     @GetMapping("/hello")
     public String helloWorld() {
         return "Hello from a Testing Mortgage Optimizer Backend!";
     }
 
-    // --- Health Status ---
+    // Health Status 
     @GetMapping("/status")
     public Map<String, String> status() {
         return Map.of("status", "running", "app", "Mortgage Optimizer Backend");
     }
 
-    // --- Approval Route (calls FastAPI /predict/approval) ---
+    // Approval Route 
     @SuppressWarnings("unchecked")
     @PostMapping(
             value = "/approval",
@@ -52,7 +55,7 @@ public class Hello {
                 .block();
     }
 
-    // --- Strategy Route (calls FastAPI /predict/strategy) ---
+    // Strategy Route 
     @SuppressWarnings("unchecked")
     @PostMapping(
             value = "/strategy",
