@@ -3,10 +3,9 @@ import React from "react";
 export const FintechBackground = () => {
   return (
     <div className="absolute inset-0 z-0 bg-black overflow-hidden">
-      {/* Glowing grid */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,197,94,0.15),transparent)]" />
 
-      {/* Floating cubes */}
+
       {Array.from({ length: 60 }).map((_, i) => (
         <div
           key={`cube-${i}`}
@@ -20,7 +19,7 @@ export const FintechBackground = () => {
         />
       ))}
 
-      {/* Binary data stream */}
+      
       {Array.from({ length: 40 }).map((_, i) => (
         <span
           key={`bit-${i}`}

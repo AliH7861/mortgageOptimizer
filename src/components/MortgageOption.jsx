@@ -14,7 +14,6 @@ export const MortgageOption = () => {
 
   return (
     <div className="w-full flex flex-col items-center py-8 space-y-10">
-      {/* Toggle buttons */}
       <div className="flex bg-black/40 backdrop-blur-md p-1 rounded-full shadow-[0_0_15px_#10b981]">
         {options.map((opt) => (
           <button
@@ -31,7 +30,6 @@ export const MortgageOption = () => {
         ))}
       </div>
 
-      {/* Render Form A or B */}
       <div className="w-full max-w-7xl">
         {selected === "new" ? <FormA_NewBuyers /> : <FormB_ReturningBuyers />}
         

@@ -1,21 +1,9 @@
-# strategy.py
-# -----------------------------------------------------
-# Exports:
-#   check_feasibility, apply_preferences, score_strategies,
-#   recommend_strategy, rule_based_recommend,
-#   build_strategy_reasons, build_rate_reasons,
-#   enrich_features (alias as enrich_strategy from callers if needed),
-#   StrategyPipelineWrapper, predict_applicant_with_rules
-# -----------------------------------------------------
-
 from __future__ import annotations
 import numpy as np
 import pandas as pd
 
 
-# =====================================================
-# 1) Feasibility Checks (hard blockers only)
-# =====================================================
+#Feasibility Checks 
 def check_feasibility(case: dict) -> dict:
     """
     Return feasibility booleans for each strategy based on *hard* constraints.
@@ -31,28 +19,27 @@ def check_feasibility(case: dict) -> dict:
     aff_gap_severe = bool(case.get("aff_gap_severe", 0))
     near_ret       = (age >= 65) or bool(case.get("near_retirement", 0))
 
-    # Downsize → needs equity + stress signal
+    # Downsize 
     downsize_valid = bool(eq >= 50_000 and (inc < 3000 or (age > 65 and dti > 0.45)))
 
-    # Lump Sum → allow unless savings are truly negligible
+    # Lump Sum e
     lump_sum_valid = (savings >= 0.02 * bal) or (savings >= 5_000)
-    # Preference override keeps Lump Sum alive
     if case.get("pref_fast_payoff", 0.0) >= 0.8:
         lump_sum_valid = True
 
-    # Extend → allow if not elderly retiree
+    # Extend 
     extend_valid = bool(bal > 0 and age < 67)
 
-    # Baseline → allow if any income
+    # Baseline 
     baseline_valid = bool(inc > 0)
 
-    # Guardrails
+    
     if near_ret and (aff_gap_severe or dti >= 0.5):
         baseline_valid = False
     if age >= 67:
         extend_valid = False
 
-    # Fallback: if everything blocks, force downsize to True
+    # Fallback
     if not any([baseline_valid, extend_valid, lump_sum_valid, downsize_valid]):
         downsize_valid = True
 
@@ -63,10 +50,7 @@ def check_feasibility(case: dict) -> dict:
         "downsize": downsize_valid,
     }
 
-
-# =====================================================
-# 2) Preference Adjustment (soft influence)
-# =====================================================
+#Preference Adjustment
 def apply_preferences(base_scores: dict, case: dict, feasibility: dict, pref_threshold: float = 0.5):
     """
     Multiply/penalize scores based on preferences for *feasible* strategies.
@@ -82,25 +66,20 @@ def apply_preferences(base_scores: dict, case: dict, feasibility: dict, pref_thr
 
     for strat, pref_val in prefs.items():
         if feasibility.get(strat, False) and pref_val >= pref_threshold:
-            # pref=0.5 → ×2 ; pref=1.0 → ×3
+            
             boost_factor = 1.0 + 2.0 * pref_val
             adjusted[strat] *= boost_factor
 
-            # Slightly shrink others so strong prefs matter
             for other in adjusted:
                 if other != strat:
                     adjusted[other] *= (1 - 0.3 * pref_val)
 
-        # Dominance (≥0.85)
         if feasibility.get(strat, False) and pref_val >= 0.85:
             adjusted[strat] *= 3.0
 
     return adjusted, prefs
 
-
-# =====================================================
-# 3) Weighted Scoring (model + feasibility + prefs)
-# =====================================================
+#Weighted Scoring 
 def score_strategies(
     model_probs, classes, feasibility: dict, case: dict, pref_threshold: float = 0.5, temperature: float = 1.5
 ):
@@ -112,11 +91,11 @@ def score_strategies(
     classes_list = list(classes)
     adjusted = {c: float(model_probs[i]) for i, c in enumerate(classes_list)}
 
-    # Feasibility weighting
+    
     for c in classes_list:
         adjusted[c] *= 1.0 if feasibility.get(c, False) else 0.05
 
-    # Preference weighting (only for feasible)
+    # Preference weighting
     prefs = {
         "baseline": case.get("pref_stability", 0),
         "extend":   max(case.get("pref_low_payment", 0), case.get("pref_flexibility", 0)),
@@ -127,7 +106,7 @@ def score_strategies(
         if feasibility.get(c, False) and pref_val >= pref_threshold:
             adjusted[c] *= (1 + 1.5 * pref_val)
 
-    # Edge-case nudges
+    # Edge-cases
     age = case.get("age", 0)
     inc = case.get("income_monthly", 0)
     eq  = case.get("equity", 0)
@@ -138,7 +117,7 @@ def score_strategies(
     if feasibility.get("lump_sum", False) and case.get("savings_available", 0) >= 10_000:
         adjusted["lump_sum"] *= 1.3
 
-    # Temperature scaling → normalized distribution
+
     raw = np.array([adjusted[c] for c in classes_list], dtype=float)
     if raw.sum() == 0:
         adjusted = {c: (1.0 if c == "baseline" else 0.0) for c in classes_list}
@@ -147,7 +126,7 @@ def score_strategies(
         scaled /= scaled.sum()
         adjusted = {c: float(scaled[i]) for i, c in enumerate(classes_list)}
 
-    # Decision (respect feasibility)
+    # Decision 
     decision = max(adjusted, key=adjusted.get)
     if not feasibility.get(decision, False):
         feasibles = [c for c in classes_list if feasibility.get(c, False)]
@@ -157,9 +136,7 @@ def score_strategies(
     return adjusted, decision
 
 
-# =====================================================
-# 4) Smarter Explanations (human-friendly)
-# =====================================================
+#Smarter Explanations 
 def build_strategy_reasons(case: dict, decision: str, feasibility: dict, prefs: dict) -> dict:
     """
     Produce beginner-friendly reasons tied to concrete thresholds and inputs.
@@ -167,13 +144,13 @@ def build_strategy_reasons(case: dict, decision: str, feasibility: dict, prefs: 
     reasons = {}
     r = 1
 
-    # Model/overall statement
+    
     reasons[f"Reason {r}"] = f"The model and rules together pointed to {decision.title()} as the best fit."
     r += 1
 
-    # Feasibility of others
+    
     for strat, feas in feasibility.items():
-        if not feas:  # blocked
+        if not feas:  
             if strat == "extend":
                 reasons[f"Reason {r}"] = (
                     "Extending wasn’t possible because there aren’t enough working years left "
@@ -202,7 +179,7 @@ def build_strategy_reasons(case: dict, decision: str, feasibility: dict, prefs: 
                 )
         r += 1
 
-    # Affordability signal
+    # Affordability 
     inc = case.get("income_monthly", 0)
     if case.get("aff_gap_positive"):
         reasons[f"Reason {r}"] = (
@@ -265,16 +242,14 @@ def build_strategy_reasons(case: dict, decision: str, feasibility: dict, prefs: 
         reasons[f"Reason {r}"] = f"Low credit ({credit}) blocked many lenders; {decision.title()} was realistic."
     r += 1
 
-    # Preference acknowledgement
+    
     if prefs.get(decision, 0) >= 0.5:
         reasons[f"Reason {r}"] = f"Your preference for {decision.title()} influenced the outcome."
 
     return reasons
 
 
-# =====================================================
-# 4b) Rate Choice Explanations (fixed vs variable)
-# =====================================================
+# Rate Choice Explanations 
 def build_rate_reasons(case: dict):
     """
     Pick fixed vs variable rate with clear, user-friendly reasons.
@@ -284,14 +259,14 @@ def build_rate_reasons(case: dict):
     emp_type = str(case.get("employment_type", "")).lower()
     credit = case.get("credit_score", 0)
 
-    # 1) Stress signals → prefer fixed
+    #Stress signals(prefer fixed)
     if case.get("aff_gap_severe") or case.get("dti_high") or inc < 3000:
         rate_type = "fixed"
         reasons["RateReason 1"] = (
             f"Finances under stress (income ${inc:,} or high debt), so a fixed rate is safer."
         )
     else:
-        # 2) Preference-led
+        #Preference-led
         if case.get("pref_low_payment", 0) > case.get("pref_stability", 0):
             rate_type = "variable"
             reasons["RateReason 1"] = "Preference for lower initial payments → variable rate."
@@ -302,7 +277,7 @@ def build_rate_reasons(case: dict):
             rate_type = "fixed"
             reasons["RateReason 1"] = "Preference for stability → fixed rate."
 
-    # 3) Employment stability
+    # Employment stability
     if emp_type in {"contract", "self-employed", "seasonal"}:
         reasons["RateReason 2"] = f"{emp_type.capitalize()} income is less predictable → fixed adds protection."
     elif emp_type == "full-time":
@@ -310,7 +285,7 @@ def build_rate_reasons(case: dict):
     elif emp_type in {"retired", "unemployed"}:
         reasons["RateReason 2"] = "Limited employment income → fixed rate helps budgeting."
 
-    # 4) Credit score
+    # Credit score
     if credit < 600:
         reasons["RateReason 3"] = f"Low credit ({credit}) limits offers; fixed is more predictable."
     elif 600 <= credit < 680:
@@ -325,9 +300,7 @@ def build_rate_reasons(case: dict):
     return rate_type, reasons
 
 
-# =====================================================
 # 5) High-level Strategy Selectors
-# =====================================================
 def recommend_strategy(case: dict, model_probs, classes, pref_threshold: float = 0.5) -> dict:
     """
     Final recommender that ties everything together.
@@ -406,16 +379,10 @@ def recommend_strategy(case: dict, model_probs, classes, pref_threshold: float =
 
 
 def rule_based_recommend(case: dict, model_probs, classes, pref_threshold: float = 0.7) -> dict:
-    """
-    Rules-first recommender:
-      - Feasibility gates
-      - Preferences boost
-      - Special-case rules for retirees / lump sum / downsizing
-    """
     feasibility = check_feasibility(case)
     candidates = [c for c in classes if feasibility.get(c, False)] or ["baseline"]
 
-    # Start from model scores
+    
     scores = {c: float(model_probs[classes.index(c)]) for c in candidates}
 
     # Preferences
@@ -427,7 +394,7 @@ def rule_based_recommend(case: dict, model_probs, classes, pref_threshold: float
     }
 
     for c in candidates:
-        scores[c] *= (1.0 + 2.0 * prefs.get(c, 0))  # pref boost
+        scores[c] *= (1.0 + 2.0 * prefs.get(c, 0))  
         if feasibility[c] and prefs.get(c, 0) >= 0.7:
             scores[c] = max(scores[c], 0.5 + 0.5 * prefs[c])
         elif feasibility[c]:
@@ -435,7 +402,7 @@ def rule_based_recommend(case: dict, model_probs, classes, pref_threshold: float
         else:
             scores[c] = 0.0
 
-    # Special rules
+   
     age = case.get("age", 0)
     eq  = case.get("equity", 0)
     bal = case.get("mortgage_balance", 0)
@@ -443,7 +410,7 @@ def rule_based_recommend(case: dict, model_probs, classes, pref_threshold: float
     dti = case.get("debt_payments_monthly", 0) / (case.get("income_monthly", 0) + 1e-6)
     aff_gap_severe = bool(case.get("aff_gap_severe", 0))
 
-    # Hard override: retiree with stress & equity → downsize
+    
     if age >= 65 and (dti > 0.5 or aff_gap_severe) and eq >= 50_000:
         return {
             "decision": "downsize",
@@ -470,17 +437,17 @@ def rule_based_recommend(case: dict, model_probs, classes, pref_threshold: float
                 if savings >= 0.25 * bal:
                     scores["lump_sum"] = max(scores["lump_sum"], 0.8 + prefs["lump_sum"])
 
-    # Downsize nudge
+    
     if "downsize" in candidates:
         if age >= 65 and (dti > 0.5 or eq >= 200_000):
             scores["downsize"] *= 1.2
         elif eq < 50_000:
             scores["downsize"] = 0.0
 
-    # Pick best
+    
     decision = "baseline" if all(v == 0 for v in scores.values()) else max(scores, key=scores.get)
 
-    # Normalize for reporting
+    # Normalize 
     total = sum(scores.values()) + 1e-6
     scores = {k: v / total for k, v in scores.items()}
 
@@ -492,9 +459,8 @@ def rule_based_recommend(case: dict, model_probs, classes, pref_threshold: float
     }
 
 
-# =====================================================
-# 6) Feature Engineering (enrichment)
-# =====================================================
+
+# enrich
 def enrich_features(applicant: dict) -> dict:
     case = applicant.copy()
 
@@ -505,7 +471,7 @@ def enrich_features(applicant: dict) -> dict:
         if case.get("property_value", 0) > 0 else 1.0
     )
 
-    # Rough monthly payment estimate from current rate (if provided)
+    
     est_payment = (
         (case.get("mortgage_balance", 0) * (case.get("interest_rate_current", 0) / 100.0)) / 12.0
     ) if case.get("interest_rate_current", 0) > 0 else 1.0
@@ -528,9 +494,7 @@ def enrich_features(applicant: dict) -> dict:
     return case
 
 
-# =====================================================
-# 7) Pipeline Wrapper (ML + Rules)
-# =====================================================
+#Pipeline Wrapper 
 class StrategyPipelineWrapper:
     def __init__(self, pipeline, classes, X_train_columns, encoders=None, label_encoder=None):
         self.pipeline = pipeline
@@ -573,7 +537,7 @@ class StrategyPipelineWrapper:
             "downsize": float(applicant.get("pref_equity_growth", 0.0)),
         }
 
-        # Decision by preferences among valid strategies; else baseline
+       
         if len(valid_strats) == 1:
             decision = valid_strats[0]
         elif len(valid_strats) > 1:

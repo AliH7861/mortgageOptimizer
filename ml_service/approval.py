@@ -1,13 +1,13 @@
-# approval.py
+
 import pandas as pd
 
-# --- Rules engine: approval + rate recommendation (no ML args) ---
+# Rules engine: approval + rate recommendation 
 def rule_based_predict(case):
     """
     Underwriting rules (approval + rate type).
     Preferences can override if feasible.
     """
-    # === Hard Fail Rules ===
+    # Hard Fails
     if case["credit_score"] < 600:
         return "FAIL", 0.0, ["Credit score below 600"], "N/A", []
     if case["loan_to_value"] > 0.95:
@@ -21,7 +21,7 @@ def rule_based_predict(case):
     if case["income_monthly"] <= 0:
         return "FAIL", 0.0, ["No income reported"], "N/A", []
 
-    # === Approval Reasons ===
+    # Approval Reasons
     reasons = []
     if case["credit_score"] >= 700: reasons.append("Good credit score")
     if case["loan_to_value"] < 0.8: reasons.append("Healthy loan-to-value ratio")
@@ -30,7 +30,7 @@ def rule_based_predict(case):
     if case["equity"] > 100000:    reasons.append("Strong equity position")
     if not reasons: reasons.append("Meets minimum approval requirements")
 
-    # === Preference Overrides ===
+   
     if case.get("pref_stability", 0) >= 0.7:
         return "PASS", 0.95, reasons[:5], "Fixed", ["High stability preference → Fixed chosen"]
 
@@ -38,7 +38,7 @@ def rule_based_predict(case):
         if case["surplus_share"] > 0.1 and case.get("steady_payment", 0) == 1:
             return "PASS", 0.95, reasons[:5], "Variable", ["High flexibility/risk preference → Variable chosen"]
 
-    # === Weighted Scoring (fallback logic) ===
+    # Weighted Scoring 
     fixed_score, variable_score = 0, 0
     fixed_reasons, variable_reasons = [], []
 
@@ -77,13 +77,13 @@ def rule_based_predict(case):
         fixed_score += 6
         fixed_reasons.append("Older borrower profile prefers fixed stability")
 
-    # === Decide Rate Type ===
+     
     if fixed_score >= variable_score:
         rate_type, rate_reasons = "Fixed", fixed_reasons
     else:
         rate_type, rate_reasons = "Variable", variable_reasons
 
-    # === Dynamic Approval Probability ===
+    # Dynamic Approval 
     diff = abs(fixed_score - variable_score)
     if diff >= 15: base_conf = 0.9
     elif diff >= 8: base_conf = 0.8
@@ -102,7 +102,7 @@ def rule_based_predict(case):
     return "PASS", conf, reasons[:5], rate_type, rate_reasons[:3]
 
 
-# --- Feature Engineering ---
+# Feature Engineering 
 def enrich_features(applicant_raw: dict) -> dict:
     applicant = applicant_raw.copy()
 
@@ -124,7 +124,7 @@ def enrich_features(applicant_raw: dict) -> dict:
     return applicant
 
 
-# --- Debugging Helper ---
+# Debugging Helper 
 def inspect_applicant_row(applicant_raw, pipeline=None):
     applicant = enrich_features(applicant_raw)
     row = pd.DataFrame([applicant])
@@ -143,11 +143,11 @@ def inspect_applicant_row(applicant_raw, pipeline=None):
     return row
 
 
-# --- Main Entry ---
+# Main Entry 
 def predict_applicant(applicant_raw, pipeline=None):
     applicant = enrich_features(applicant_raw)
 
-    # Optional ML probability
+   
     model_prob = None
     if pipeline is not None:
         try:

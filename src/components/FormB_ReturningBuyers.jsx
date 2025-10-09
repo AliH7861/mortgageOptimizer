@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-// === Floating Input (number/text with arrows) ===
 const FloatingInput = ({ label, type, name, step, value, onChange, increment, decrement }) => (
   <div className="relative">
     <input
@@ -45,7 +44,7 @@ const FloatingInput = ({ label, type, name, step, value, onChange, increment, de
   </div>
 );
 
-// === Floating Stepper (enum fields) ===
+
 const FloatingStepper = ({ label, name, options, value, setValue }) => {
   const currentIndex = Math.max(0, options.indexOf(value));
   const increment = () => setValue(options[(currentIndex + 1) % options.length]);
@@ -93,7 +92,7 @@ const FloatingStepper = ({ label, name, options, value, setValue }) => {
   );
 };
 
-// === Preference Slider ===
+
 const PreferenceSlider = ({ name, label, value, onChange }) => (
   <div className="flex flex-col pb-4 border-b border-green-500/30 last:border-none">
     <div className="flex justify-between items-center mb-1">
@@ -121,7 +120,7 @@ const PreferenceSlider = ({ name, label, value, onChange }) => (
   </div>
 );
 
-// === Binary Output for Strategy ===
+// Output Component
 const BinaryOutput = ({ decision, confidence, rateType, rate }) => {
   const hasConf = Number.isFinite(confidence);
   const hasRate = Number.isFinite(rate);
@@ -159,7 +158,7 @@ const BinaryOutput = ({ decision, confidence, rateType, rate }) => {
   );
 };
 
-// === Main Form (Returning Buyers) ===
+// Main
 export const FormB_ReturningBuyers = () => {
   const [formData, setFormData] = useState({
     age: "",
@@ -258,11 +257,11 @@ export const FormB_ReturningBuyers = () => {
   return (
     <div className="flex justify-center px-4 mt-10">
       <div className="w-full max-w-7xl space-y-9">
-        {/* === Top Layout === */}
+        {/*Top Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {/* === Left Column === */}
+          {/*  Left Column  */}
           <div className="space-y-10">
-            {/* Personal & Employment */}
+            
             <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 
               shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/30">
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
@@ -282,7 +281,7 @@ export const FormB_ReturningBuyers = () => {
               </div>
             </div>
 
-            {/* Property & Mortgage (Current) */}
+            
             <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 
               shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/30">
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
@@ -315,7 +314,7 @@ export const FormB_ReturningBuyers = () => {
             </div>
           </div>
 
-          {/* === Right Column === */}
+          {/*Right Column*/}
           <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-7 
             shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/30">
             <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
@@ -338,7 +337,7 @@ export const FormB_ReturningBuyers = () => {
           </div>
         </div>
 
-        {/* === Financial Section === */}
+       
         <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 
           shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/30">
           <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
@@ -357,7 +356,7 @@ export const FormB_ReturningBuyers = () => {
           </div>
         </div>
 
-        {/* === Submit Button === */}
+        {/*Submit Button*/}
         <div className="mt-12 flex justify-center mb-5">
           <button
             type="button"
@@ -370,7 +369,7 @@ export const FormB_ReturningBuyers = () => {
           </button>
         </div>
 
-        {/* === Output === */}
+        {/*Output*/}
         {apiResult && (
           <BinaryOutput
             decision={apiResult?.strategy}

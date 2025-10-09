@@ -1,14 +1,8 @@
-import { ThemeToggle } from "../components/ThemeToggle";
+
 
 export const NotFound = () => {
   return (
     <div className="relative min-h-screen bg-black text-white flex flex-col">
-      {/* === Header w/ ThemeToggle === */}
-      <header className="w-full flex justify-end px-6 py-4">
-        <ThemeToggle />
-      </header>
-
-      {/* === Main Content === */}
       <main className="flex-1 flex flex-col items-center justify-center text-center px-6">
         <h1 className="text-8xl font-extrabold mb-4 
           text-transparent bg-clip-text 

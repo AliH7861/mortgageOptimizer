@@ -4,19 +4,19 @@ export const BinaryOutput = ({ decision, confidence, rate, scenarios }) => {
       id="binaryOutput"
       className="w-full max-w-7xl mx-auto mt-12"
     >
-      {/* === Shared Header === */}
+      
       <div className="bg-black/60 border border-green-500/30 rounded-t-2xl px-6 py-3 
         text-xs tracking-[0.25em] uppercase text-green-300 text-center
         shadow-[0_0_12px_rgba(0,255,100,0.2)]">
         Model Output Results
       </div>
 
-      {/* === Two Column Outputs === */}
+      {/* Main Box */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 
         bg-black/40 border border-green-500/30 rounded-b-2xl 
         p-6 shadow-[0_0_20px_rgba(0,255,100,0.25)]">
         
-        {/* Left Box (Binary Decision) */}
+        {/* LeftBox */}
         <div className="bg-black/60 rounded-xl border border-green-500/20 
           shadow-[0_0_15px_rgba(0,255,100,0.15)] p-6 text-center">
           <h3 className="text-sm uppercase tracking-widest text-green-300 mb-3">
@@ -34,7 +34,7 @@ export const BinaryOutput = ({ decision, confidence, rate, scenarios }) => {
           )}
         </div>
 
-        {/* Right Box (Rate Recommendation) */}
+        {/* RightBox */}
         <div className="bg-black/60 rounded-xl border border-green-500/20 
           shadow-[0_0_15px_rgba(0,255,100,0.15)] p-6 text-center">
           <h3 className="text-sm uppercase tracking-widest text-green-300 mb-3">

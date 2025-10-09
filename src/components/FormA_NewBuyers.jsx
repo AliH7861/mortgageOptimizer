@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 
-/* ======================================================
-   BinaryOutput (two simple sentence boxes)
-   ====================================================== */
+{/* Bianry Output*/}
 const BinaryOutput = ({ decision, confidence, rateType, rate }) => {
   const hasConf = Number.isFinite(confidence);
   const hasRate = Number.isFinite(rate);
@@ -10,19 +8,19 @@ const BinaryOutput = ({ decision, confidence, rateType, rate }) => {
 
   return (
     <section id="binaryOutput" className="w-full max-w-7xl mx-auto mt-12">
-      {/* Header */}
+      
       <div className="bg-black/60 border border-green-500/30 rounded-t-2xl px-6 py-3 
         text-xs tracking-[0.25em] uppercase text-green-300 text-center
         shadow-[0_0_12px_rgba(0,255,100,0.2)]">
         Model Output Results
       </div>
 
-      {/* Two boxes */}
+      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 
         bg-black/40 border border-green-500/30 rounded-b-2xl 
         p-6 shadow-[0_0_20px_rgba(0,255,100,0.25)]">
         
-        {/* Box 1: Mortgage Decision */}
+        
         <div className="bg-black/60 rounded-xl border border-green-500/20 
           shadow-[0_0_15px_rgba(0,255,100,0.15)] p-6 text-center">
           <h3 className="text-sm uppercase tracking-widest text-green-300 mb-3">
@@ -40,7 +38,7 @@ const BinaryOutput = ({ decision, confidence, rateType, rate }) => {
           )}
         </div>
 
-        {/* Box 2: Rate Decision */}
+        
         <div className="bg-black/60 rounded-xl border border-green-500/20 
           shadow-[0_0_15px_rgba(0,255,100,0.15)] p-6 text-center">
           <h3 className="text-sm uppercase tracking-widest text-green-300 mb-3">
@@ -61,9 +59,7 @@ const BinaryOutput = ({ decision, confidence, rateType, rate }) => {
   );
 };
 
-/* ======================================================
-   Floating Label Input with +/- buttons (numbers)
-   ====================================================== */
+{/* FloatingInput */}
 const FloatingInput = ({ label, type, name, step, value, onChange, increment, decrement }) => (
   <div className="relative">
     <input
@@ -109,9 +105,7 @@ const FloatingInput = ({ label, type, name, step, value, onChange, increment, de
   </div>
 );
 
-/* ======================================================
-   Floating Stepper (enum values)
-   ====================================================== */
+{/* FloatingStepper */}
 const FloatingStepper = ({ label, name, options, value, setValue }) => {
   const currentIndex = Math.max(0, options.indexOf(value));
   const increment = () => setValue(options[(currentIndex + 1) % options.length]);
@@ -161,9 +155,7 @@ const FloatingStepper = ({ label, name, options, value, setValue }) => {
   );
 };
 
-/* ======================================================
-   Preference Slider
-   ====================================================== */
+{/* Prefrence Slider  */}
 const PreferenceSlider = ({ name, label, value, onChange }) => (
   <div className="flex flex-col pb-3 border-b border-green-500/10 last:border-none">
     <div className="flex justify-between items-center mb-1">
@@ -189,9 +181,7 @@ const PreferenceSlider = ({ name, label, value, onChange }) => (
   </div>
 );
 
-/* ======================================================
-   FormA_NewBuyers (FULL)
-   ====================================================== */
+{/* FormA_NewBuyers (Main) */}
 export const FormA_NewBuyers = () => {
   const [formData, setFormData] = useState({
     age: "",
@@ -252,11 +242,11 @@ export const FormA_NewBuyers = () => {
         property_value: toNum(formData.propertyValue),
         mortgage_balance: toNum(formData.mortgageBalance),
         amortization_remaining: toNum(formData.amortizationYears),
-        monthly_payment_current: 0, // new buyers
+        monthly_payment_current: 0, 
         expenses_monthly: toNum(formData.expensesMonthly),
         debt_payments_monthly: toNum(formData.debtPaymentsMonthly),
         interest_rate_current: toNum(formData.interestRate),
-        rate_type: "fixed", // initial choice; backend can override
+        rate_type: "fixed", 
         pref_low_payment: toNum(formData.pref_low_payment, 0.5),
         pref_flexibility: toNum(formData.pref_flexibility, 0.5),
         pref_stability: toNum(formData.pref_stability, 0.5),
@@ -288,11 +278,11 @@ export const FormA_NewBuyers = () => {
   return (
     <div className="flex justify-center px-4 mt-10">
       <div className="w-full max-w-7xl">
-        {/* =================== Main Layout =================== */}
+        {/* Main */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Left column */}
           <div className="space-y-7">
-            {/* Personal & Employment */}
+            
             <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 shadow-[0_0_25px_rgba(0,255,200,0.15)] border border-white/34">
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Personal & Employment
@@ -337,7 +327,7 @@ export const FormA_NewBuyers = () => {
               </div>
             </div>
 
-            {/* Property & Mortgage */}
+            
             <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/34">
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Property & Mortgage
@@ -383,7 +373,7 @@ export const FormA_NewBuyers = () => {
               </div>
             </div>
 
-            {/* Financial */}
+            
             <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/34">
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Financial
@@ -424,7 +414,7 @@ export const FormA_NewBuyers = () => {
 
           {/* Right column */}
           <div className="space-y-12">
-            {/* Preferences A */}
+            
             <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/34">
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Preferences A
@@ -451,7 +441,7 @@ export const FormA_NewBuyers = () => {
               </div>
             </div>
 
-            {/* Preferences B */}
+            
             <div className="rounded-2xl bg-black/40 backdrop-blur-lg p-6 shadow-[0_0_25px_rgba(0,255,100,0.15)] border border-white/34">
               <h2 className="tracking-[0.25em] uppercase text-green-400 text-base font-bold mb-6">
                 Preferences B
@@ -480,7 +470,7 @@ export const FormA_NewBuyers = () => {
           </div>
         </div>
 
-        {/* =================== Submit + Output =================== */}
+        {/* Submit */}
         <div className="mt-12 flex flex-col items-center mb-5">
           <button
             type="button"
@@ -494,7 +484,7 @@ export const FormA_NewBuyers = () => {
             Run Optimization
           </button>
 
-          {/* Output boxes (no raw JSON) */}
+          {/* Output */}
           {apiResult && (
             <BinaryOutput
               decision={apiResult?.decision}
