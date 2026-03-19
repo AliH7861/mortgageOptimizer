@@ -1,4 +1,4 @@
-export const BinaryOutput = ({ decision, confidence, rate, scenarios }) => {
+export const BinaryOutput = ({ decision, confidence, rate }) => {
   return (
     <section
       id="binaryOutput"

@@ -29,10 +29,15 @@ public class PreflightCorsFilter extends OncePerRequestFilter {
         String allowedOrigin = resolveAllowedOrigin(origin);
 
         if (allowedOrigin != null) {
+            String requestedHeaders = request.getHeader("Access-Control-Request-Headers");
             response.setHeader("Access-Control-Allow-Origin", allowedOrigin);
             response.setHeader("Vary", "Origin");
             response.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-            response.setHeader("Access-Control-Allow-Headers", "*");
+            response.setHeader(
+                    "Access-Control-Allow-Headers",
+                    requestedHeaders == null || requestedHeaders.isBlank() ? "*" : requestedHeaders
+            );
+            response.setHeader("Access-Control-Allow-Credentials", "true");
             response.setHeader("Access-Control-Max-Age", "3600");
         }
 
