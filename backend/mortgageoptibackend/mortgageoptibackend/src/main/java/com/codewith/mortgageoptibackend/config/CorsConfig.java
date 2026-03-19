@@ -10,10 +10,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
 
-    private final String[] allowedOrigins;
+    private final String[] allowedOriginPatterns;
 
-    public CorsConfig(@Value("${frontend.url:http://localhost:5173,http://localhost:3000,https://mortgage-optimizer.vercel.app}") String frontendUrl) {
-        this.allowedOrigins = Arrays.stream(frontendUrl.split(","))
+    public CorsConfig(@Value("${frontend.url:*}") String frontendUrl) {
+        this.allowedOriginPatterns = Arrays.stream(frontendUrl.split(","))
                 .map(String::trim)
                 .map(origin -> origin.endsWith("/") ? origin.substring(0, origin.length() - 1) : origin)
                 .filter(origin -> !origin.isBlank())
@@ -23,9 +23,9 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
-                .allowedOriginPatterns(allowedOrigins)
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedOriginPatterns(allowedOriginPatterns)
+                .allowedMethods("*")
                 .allowedHeaders("*")
-                .allowCredentials(true);
+                .maxAge(3600);
     }
 }
