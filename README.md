@@ -205,7 +205,7 @@ Contributions are welcome. If you want to improve the project:
 
 ## Contributors
 
-- Ali Huq
+- Ali Hakkani
 
 ## Contact
 
