@@ -1,44 +1,26 @@
+import os
+import traceback
+
+import joblib
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import joblib
 from pydantic import BaseModel
-import os 
-import os
-import joblib
 
 
-
-# Relative Directory Buliding
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 approval_pipeline = joblib.load(os.path.join(BASE_DIR, "approval_pipeline.pkl"))
 strategy_pipeline = joblib.load(os.path.join(BASE_DIR, "strategy_pipeline.pkl"))
 
-
-# Import from aproval.py
-from .approval import (
-    rule_based_predict,
-    enrich_features as enrich_approval,   
-    inspect_applicant_row,
-    predict_applicant
-)
-
-# Import from Staregy.py
-from .strategy import (
-    check_feasibility,
-    apply_preferences,
-    score_strategies,
-    recommend_strategy,
-    rule_based_recommend,
-    build_strategy_reasons,
-    build_rate_reasons,
-    enrich_features as enrich_strategy,  
-    StrategyPipelineWrapper,
-    predict_applicant_with_rules
-)
+try:
+    from .approval import predict_applicant
+    from .strategy import StrategyPipelineWrapper
+except ImportError:
+    # Support running from either the repo root or the ml_service directory.
+    from approval import predict_applicant
+    from strategy import StrategyPipelineWrapper
 
 
-# Applicant Schema
 class Applicant(BaseModel):
     age: int
     employment_type: str
@@ -59,14 +41,12 @@ class Applicant(BaseModel):
     pref_fast_payoff: float
     pref_equity_growth: float
     pref_risk_tolerance: float
-    steady_payment: int = 1   
+    steady_payment: int = 1
 
 
-
-# Helpers Functions (Important)
 def _safe_classes_from_pipeline(pipeline):
     try:
-        for name, step in reversed(pipeline.named_steps.items()):
+        for _, step in reversed(pipeline.named_steps.items()):
             if hasattr(step, "classes_"):
                 return list(step.classes_)
     except Exception:
@@ -75,7 +55,6 @@ def _safe_classes_from_pipeline(pipeline):
 
 
 def _safe_feature_names_from_pipeline(pipeline):
-    
     names = getattr(pipeline, "feature_names_in_", None)
     if names is not None:
         return list(names)
@@ -89,7 +68,6 @@ def _reasons_text(reasons):
     if not reasons:
         return ""
     return f" Reasons: {', '.join(reasons)}"
-
 
 
 _strategy_classes = _safe_classes_from_pipeline(strategy_pipeline)
@@ -113,32 +91,26 @@ wrapper = StrategyPipelineWrapper(
     classes=_strategy_classes,
     X_train_columns=_strategy_feature_names,
     encoders=None,
-    label_encoder=None
+    label_encoder=None,
 )
 
 
-# FastAPI
 app = FastAPI(title="Mortgage Copilot API", version="1.0.0")
 
-# CORS (tune origins for production) - (Used Chatgpt for this, while debugging)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
+    allow_origins=os.getenv("FASTAPI_CORS_ORIGINS", "*").split(","),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+
 @app.get("/")
 def home():
-    return {"status": "FastAPI is running 🚀"}
-
-import traceback
+    return {"status": "FastAPI is running"}
 
 
-
-
-# 1) Approval Decision 
 @app.post("/predict/approval")
 def approval(applicant: Applicant):
     data = applicant.dict()
@@ -152,27 +124,29 @@ def approval(applicant: Applicant):
         traceback.print_exc()
         return {
             "error": "Prediction failed",
-            "details": str(e)
+            "details": str(e),
         }
 
-    # Build UI sentence
     if result["decision"] == "PASS":
-        message = f"Approved mortgage. Chosen rate: {result['rate_type']}." + _reasons_text(result.get("approval_reasons", []))
+        message = (
+            f"Approved mortgage. Chosen rate: {result['rate_type']}."
+            + _reasons_text(result.get("approval_reasons", []))
+        )
     else:
-        message = "Not approved for a mortgage." + _reasons_text(result.get("approval_reasons", []))
+        message = "Not approved for a mortgage." + _reasons_text(
+            result.get("approval_reasons", [])
+        )
 
-    # Return message 
     return {
         "message": message,
         "decision": result["decision"],
         "approval_probability": result["approval_probability"],
         "rate_type": result["rate_type"],
         "approval_reasons": result["approval_reasons"],
-        "rate_reasons": result["rate_reasons"]
+        "rate_reasons": result["rate_reasons"],
     }
 
 
-# 2) Strategy Decision 
 @app.post("/predict/strategy")
 def strategy(applicant: Applicant):
     data = applicant.dict()
@@ -186,13 +160,13 @@ def strategy(applicant: Applicant):
         traceback.print_exc()
         return {
             "error": "Prediction failed",
-            "details": str(e)
+            "details": str(e),
         }
 
-    
-    message = f"Best strategy: {result['strategy']}." + _reasons_text(result.get("reasons", []))
+    message = f"Best strategy: {result['strategy']}." + _reasons_text(
+        result.get("reasons", [])
+    )
 
-    # Return (meessage, strategy gives)
     return {
         "message": message,
         "strategy": result["strategy"],
@@ -201,10 +175,11 @@ def strategy(applicant: Applicant):
         "feasibility": result["feasibility"],
         "preferences": result["preferences"],
         "rate_reasons": result["rate_reasons"],
-        "reasons": result["reasons"]
+        "reasons": result["reasons"],
     }
 
-# running app.py in temrinal
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)
+
+    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", "8000")), reload=True)

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { buildApiUrl } from "../lib/api";
 
 const FloatingInput = ({ label, type, name, step, value, onChange, increment, decrement }) => (
   <div className="relative">
@@ -235,8 +236,7 @@ export const FormB_ReturningBuyers = () => {
         pref_flexibility: toNum(formData.pref_flexibility, 0.5),
       };
 
-      const API_BASE = "http://localhost:8080/api/mortgage";
-      const res = await fetch(`${API_BASE}/strategy`, {
+      const res = await fetch(buildApiUrl("/strategy"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

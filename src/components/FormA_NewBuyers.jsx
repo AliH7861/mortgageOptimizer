@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { buildApiUrl } from "../lib/api";
 
 {/* Bianry Output*/}
 const BinaryOutput = ({ decision, confidence, rateType, rate }) => {
@@ -256,8 +257,7 @@ export const FormA_NewBuyers = () => {
         steady_payment: 1,
       };
 
-      const API_BASE = "http://localhost:8080/api/mortgage";
-      const res = await fetch(`${API_BASE}/approval`, {
+      const res = await fetch(buildApiUrl("/approval"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

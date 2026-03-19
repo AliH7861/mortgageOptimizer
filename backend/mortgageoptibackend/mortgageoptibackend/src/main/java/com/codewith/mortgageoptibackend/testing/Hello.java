@@ -1,5 +1,6 @@
 package com.codewith.mortgageoptibackend.testing;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -8,18 +9,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/mortgage")
-
-
-
-// Allow both Vite (5173) and CRA (3000) dev servers
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"})
 public class Hello {
 
     private final WebClient webClient;
 
-    public Hello() {
+    public Hello(@Value("${ml.service.url:http://localhost:8001}") String mlServiceUrl) {
         this.webClient = WebClient.builder()
-                .baseUrl("http://localhost:8001") // FastAPI URL
+                .baseUrl(mlServiceUrl)
                 .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .build();
