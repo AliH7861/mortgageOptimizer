@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from ..app import app # import your FastAPI app
+from ml_service.app import app
 
 client = TestClient(app)
 
