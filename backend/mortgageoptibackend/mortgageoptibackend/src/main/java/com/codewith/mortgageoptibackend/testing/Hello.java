@@ -14,11 +14,38 @@ public class Hello {
     private final WebClient webClient;
 
     public Hello(@Value("${ml.service.url:http://localhost:8001}") String mlServiceUrl) {
+        String normalizedMlServiceUrl = normalizeBaseUrl(mlServiceUrl);
         this.webClient = WebClient.builder()
-                .baseUrl(mlServiceUrl)
+                .baseUrl(normalizedMlServiceUrl)
                 .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .build();
+    }
+
+    private String normalizeBaseUrl(String rawUrl) {
+        String url = rawUrl == null ? "" : rawUrl.trim();
+
+        if (url.isEmpty()) {
+            return "http://localhost:8001";
+        }
+
+        if ((url.startsWith("\"") && url.endsWith("\"")) || (url.startsWith("'") && url.endsWith("'"))) {
+            url = url.substring(1, url.length() - 1).trim();
+        }
+
+        if (url.startsWith("<") && url.endsWith(">")) {
+            url = url.substring(1, url.length() - 1).trim();
+        }
+
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            url = "https://" + url;
+        }
+
+        while (url.endsWith("/")) {
+            url = url.substring(0, url.length() - 1);
+        }
+
+        return url;
     }
 
     // Test Route
